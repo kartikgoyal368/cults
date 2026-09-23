@@ -149,3 +149,25 @@
   color: #ddd;
   font-weight: 600;
 }
+
+@media (max-width: 768px) {
+  .section {
+    padding: 3.5rem 1.25rem;
+  }
+  .header {
+    margin-bottom: 2rem;
+  }
+  .title {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+  }
+  .productCard {
+    width: 240px;
+  }
+  .productName {
+    font-size: 1.05rem;
+  }
+  .productPrice {
+    font-size: 1rem;
+  }
+}
+

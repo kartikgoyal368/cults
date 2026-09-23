@@ -191,3 +191,34 @@
   background: #111;
   color: #fff;
 }
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2.5rem 1rem;
+  }
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+  .grid {
+    gap: 1.25rem 0.75rem;
+  }
+  .productName {
+    font-size: 0.82rem;
+  }
+  .productPrice {
+    font-size: 0.9rem;
+  }
+  .productPriceRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .addToCartInlineBtn {
+    width: 100%;
+    text-align: center;
+    padding: 0.45rem 0.5rem;
+    font-size: 0.65rem;
+  }
+}
+

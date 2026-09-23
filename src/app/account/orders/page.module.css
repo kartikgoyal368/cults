@@ -800,16 +800,59 @@
     justify-content: space-between;
   }
   .cornerGraphic {
-    width: 180px;
-    opacity: 0.8;
+    width: 160px;
+    opacity: 0.4;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .pageWrapper {
+    padding: 2rem 0.75rem;
+  }
+  .contentWrapper {
+    padding: 1.5rem 0.85rem;
+  }
+  .title {
+    font-size: 1.6rem;
+  }
+  .cornerGraphic {
+    display: none;
+  }
   .productGrid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
   .trackingTimeline {
-    padding: 1rem 0.5rem;
+    padding: 1rem 0.25rem;
+    overflow-x: auto;
+  }
+  .stepDot {
+    width: 10px;
+    height: 10px;
+  }
+  .stepLabel {
+    font-size: 0.6rem;
+  }
+  .orderFooter {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .trackBtn, .buyAgainBtn {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
+  .itemRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .itemActions {
+    width: 100%;
+  }
+  .viewItemBtn {
+    display: block;
+    text-align: center;
+    width: 100%;
   }
 }

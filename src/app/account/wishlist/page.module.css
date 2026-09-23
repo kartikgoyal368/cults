@@ -526,13 +526,39 @@
     font-size: 1.7rem;
   }
   .cornerGraphic {
-    width: 180px;
-    opacity: 0.8;
+    width: 160px;
+    opacity: 0.4;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .pageWrapper {
+    padding: 2rem 0.75rem;
+  }
+  .contentWrapper {
+    padding: 1.5rem 0.85rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .cornerGraphic {
+    display: none;
+  }
   .productGrid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .tabNav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filtersBar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.5rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .filterChip {
+    white-space: nowrap;
   }
 }

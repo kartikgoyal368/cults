@@ -254,3 +254,32 @@
   text-align: center;
   line-height: 1.4;
 }
+
+@media (max-width: 600px) {
+  .pageWrapper {
+    padding: 2rem 0.75rem;
+  }
+  .cornerGraphic {
+    display: none;
+  }
+  .formWrapper {
+    padding: 1.75rem 1rem;
+  }
+  .title {
+    font-size: 1.6rem;
+  }
+  .profileCard {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+  .submitBtn {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+

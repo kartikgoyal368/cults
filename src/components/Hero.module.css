@@ -65,3 +65,24 @@
   margin-bottom: 2.5rem;
   opacity: 0.9;
 }
+
+@media (max-width: 768px) {
+  .hero {
+    height: 75vh;
+    min-height: 460px;
+  }
+  .content {
+    padding: 0 1.25rem;
+    margin-top: 4vh;
+  }
+  .title {
+    font-size: clamp(2.2rem, 10vw, 3.5rem);
+    margin-bottom: 0.75rem;
+  }
+  .subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.06em;
+  }
+}
+

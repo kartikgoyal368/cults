@@ -14,14 +14,27 @@ import type { Session } from 'next-auth';
 export default function Header({ session }: { session: Session | null }) {
   const { isCartOpen, setIsCartOpen, totalCount } = useCart();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      setIsMobileSearchOpen(false);
+      setIsMobileMenuOpen(false);
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
+  };
+
+  const toggleCategory = (cat: string) => {
+    setExpandedCategory(expandedCategory === cat ? null : cat);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -43,12 +56,19 @@ export default function Header({ session }: { session: Session | null }) {
 
       {/* Main Navigation */}
       <div className={styles.navContainer}>
-        <div className={styles.hamburger}>
+        {/* Mobile Hamburger Toggle */}
+        <button 
+          className={styles.hamburger} 
+          onClick={() => setIsMobileMenuOpen(true)}
+          aria-label="Open mobile menu"
+          type="button"
+        >
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
 
+        {/* Desktop Navigation Links */}
         <nav className={styles.navLinks}>
           <Link href="/collections/new">NEW ARRIVALS</Link>
           
@@ -97,16 +117,25 @@ export default function Header({ session }: { session: Session | null }) {
               </div>
             </div>
           </div>
-
         </nav>
 
+        {/* Center Logo */}
         <div className={styles.logo}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center' }}>
-            <Image src="/images/logo.png" alt="CULT'S Logo" width={168} height={56} style={{ objectFit: 'contain' }} />
+            <Image 
+              src="/images/logo.png" 
+              alt="CULT'S Logo" 
+              width={160} 
+              height={52} 
+              style={{ objectFit: 'contain' }}
+              className={styles.logoImg}
+            />
           </Link>
         </div>
 
+        {/* Right Actions */}
         <div className={styles.actions}>
+          {/* Desktop Search Bar */}
           <form className={styles.searchBarContainer} onSubmit={handleSearchSubmit}>
             <input 
               type="text" 
@@ -116,22 +145,32 @@ export default function Header({ session }: { session: Session | null }) {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className={styles.searchIcons}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="22"></line></svg>
-              <button type="submit" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit' }}>
+              <button type="submit" aria-label="Search" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'inherit' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
               </button>
             </div>
           </form>
+
+          {/* Mobile Search Button Toggle */}
+          <button 
+            type="button"
+            className={styles.mobileSearchToggle} 
+            onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+            aria-label="Toggle mobile search"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
           
           <div className={styles.iconGroup}>
+            {/* User Account Menu (Desktop) */}
             <div 
               className={styles.userMenuWrapper} 
               style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
               onMouseEnter={() => setIsUserMenuOpen(true)}
               onMouseLeave={() => setIsUserMenuOpen(false)}
             >
-              <Link href="/login" aria-label="Login / Sign Up" title="Login / Sign Up" className={styles.iconBtn}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <Link href={session ? "/account" : "/login"} aria-label="Login / Sign Up" title="My Account" className={styles.iconBtn}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               </Link>
               {session && isUserMenuOpen && (
                 <div style={{
@@ -154,18 +193,25 @@ export default function Header({ session }: { session: Session | null }) {
                     Signed in as <span style={{ color: '#fff', fontWeight: 600 }}>{session.user?.name || session.user?.email}</span>
                   </div>
                   <Link 
-                    href="/login" 
-                    style={{ padding: '0.5rem 1rem', fontSize: '0.8rem', color: '#ddd', textDecoration: 'none' }}
-                    onClick={() => setIsUserMenuOpen(false)}
-                  >
-                    Login / Sign Up
-                  </Link>
-                  <Link 
                     href="/account" 
                     style={{ padding: '0.5rem 1rem', fontSize: '0.8rem', color: '#ddd', textDecoration: 'none' }}
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     My Account
+                  </Link>
+                  <Link 
+                    href="/account/orders" 
+                    style={{ padding: '0.5rem 1rem', fontSize: '0.8rem', color: '#ddd', textDecoration: 'none' }}
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    My Orders
+                  </Link>
+                  <Link 
+                    href="/account/wishlist" 
+                    style={{ padding: '0.5rem 1rem', fontSize: '0.8rem', color: '#ddd', textDecoration: 'none' }}
+                    onClick={() => setIsUserMenuOpen(false)}
+                  >
+                    Wishlist
                   </Link>
                   <button 
                     onClick={() => { setIsUserMenuOpen(false); signOut({ callbackUrl: '/' }); }}
@@ -177,16 +223,18 @@ export default function Header({ session }: { session: Session | null }) {
               )}
             </div>
 
+            {/* Wishlist Link */}
             <Link href="/account/wishlist" aria-label="Wishlist" title="My Wishlist" className={styles.iconBtn}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </Link>
 
+            {/* Cart Button */}
             <button 
               aria-label="Cart" 
               onClick={() => setIsCartOpen(true)}
               style={{ position: 'relative', display: 'flex', alignItems: 'center' }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
               {totalCount > 0 && (
                 <span style={{
                   position: 'absolute',
@@ -211,6 +259,139 @@ export default function Header({ session }: { session: Session | null }) {
           </div>
         </div>
       </div>
+
+      {/* Expandable Mobile Search Bar */}
+      {isMobileSearchOpen && (
+        <div className={styles.mobileSearchDropdown}>
+          <form className={styles.mobileSearchForm} onSubmit={handleSearchSubmit}>
+            <input 
+              type="text" 
+              placeholder="Search streetwear drops..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.mobileSearchInput}
+              autoFocus
+            />
+            <button type="submit" className={styles.mobileSearchSubmitBtn}>
+              SEARCH
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* Mobile Navigation Drawer */}
+      <div 
+        className={`${styles.mobileDrawerOverlay} ${isMobileMenuOpen ? styles.mobileDrawerOpen : ''}`}
+        onClick={closeMobileMenu}
+        aria-hidden="true"
+      />
+      <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.mobileDrawerOpen : ''}`}>
+        <div className={styles.mobileDrawerHeader}>
+          <Image src="/images/logo.png" alt="CULT'S Logo" width={130} height={42} style={{ objectFit: 'contain' }} />
+          <button className={styles.mobileDrawerCloseBtn} onClick={closeMobileMenu} aria-label="Close menu">
+            ✕
+          </button>
+        </div>
+
+        {/* Mobile Search */}
+        <div className={styles.mobileDrawerSearch}>
+          <form onSubmit={handleSearchSubmit} className={styles.drawerSearchForm}>
+            <input 
+              type="text" 
+              placeholder="Search catalog..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.drawerSearchInput}
+            />
+            <button type="submit" className={styles.drawerSearchBtn} aria-label="Submit search">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+          </form>
+        </div>
+
+        {/* Mobile Navigation Links */}
+        <nav className={styles.mobileNavLinks}>
+          <Link href="/collections/new" className={styles.mobileNavLink} onClick={closeMobileMenu}>
+            NEW ARRIVALS
+            <span className={styles.dropBadge}>HOT</span>
+          </Link>
+
+          {/* TOPS Accordion */}
+          <div className={styles.mobileAccordion}>
+            <button 
+              type="button" 
+              className={styles.mobileAccordionToggle} 
+              onClick={() => toggleCategory('tops')}
+            >
+              <span>TOPS</span>
+              <span className={styles.accordionArrow}>{expandedCategory === 'tops' ? '−' : '+'}</span>
+            </button>
+            {expandedCategory === 'tops' && (
+              <div className={styles.mobileSubLinks}>
+                <Link href="/collections/tops" onClick={closeMobileMenu}>ALL TOPS</Link>
+                <Link href="/collections/tops/hoodies" onClick={closeMobileMenu}>HOODIES</Link>
+                <Link href="/collections/tops/tshirt" onClick={closeMobileMenu}>TSHIRTS</Link>
+                <Link href="/collections/tops/jackets" onClick={closeMobileMenu}>JACKETS</Link>
+                <Link href="/collections/tops/tank-top" onClick={closeMobileMenu}>TANK TOPS</Link>
+                <Link href="/collections/tops/full-sleeve" onClick={closeMobileMenu}>FULL SLEEVE</Link>
+                <Link href="/collections/tops/baby-tee" onClick={closeMobileMenu}>BABY TEE</Link>
+              </div>
+            )}
+          </div>
+
+          {/* BOTTOMS Accordion */}
+          <div className={styles.mobileAccordion}>
+            <button 
+              type="button" 
+              className={styles.mobileAccordionToggle} 
+              onClick={() => toggleCategory('bottoms')}
+            >
+              <span>BOTTOMS</span>
+              <span className={styles.accordionArrow}>{expandedCategory === 'bottoms' ? '−' : '+'}</span>
+            </button>
+            {expandedCategory === 'bottoms' && (
+              <div className={styles.mobileSubLinks}>
+                <Link href="/collections/bottoms" onClick={closeMobileMenu}>ALL BOTTOMS</Link>
+                <Link href="/collections/bottoms/baggy" onClick={closeMobileMenu}>BAGGY PANTS</Link>
+                <Link href="/collections/bottoms/cargos" onClick={closeMobileMenu}>CARGOS</Link>
+                <Link href="/collections/bottoms/denim" onClick={closeMobileMenu}>DENIM</Link>
+                <Link href="/collections/bottoms/shorts" onClick={closeMobileMenu}>SHORTS</Link>
+              </div>
+            )}
+          </div>
+
+          <Link href="/account/wishlist" className={styles.mobileNavLink} onClick={closeMobileMenu}>
+            MY WISHLIST
+          </Link>
+
+          <Link href="/account/orders" className={styles.mobileNavLink} onClick={closeMobileMenu}>
+            MY ORDERS & TRACKING
+          </Link>
+
+          <Link href={session ? "/account" : "/login"} className={styles.mobileNavLink} onClick={closeMobileMenu}>
+            {session ? 'MY ACCOUNT' : 'LOGIN / REGISTER'}
+          </Link>
+        </nav>
+
+        {/* Mobile Drawer Footer */}
+        <div className={styles.mobileDrawerFooter}>
+          {session ? (
+            <button 
+              type="button"
+              className={styles.drawerSignOutBtn} 
+              onClick={() => { closeMobileMenu(); signOut({ callbackUrl: '/' }); }}
+            >
+              SIGN OUT ({session.user?.name || session.user?.email})
+            </button>
+          ) : (
+            <Link href="/login" className={`btn ${styles.drawerLoginBtn}`} onClick={closeMobileMenu}>
+              SIGN IN / REGISTER
+            </Link>
+          )}
+          <p className={styles.drawerCopyright}>CULT'S STUDIOS © LUXURY STREETWEAR</p>
+        </div>
+      </div>
+
       <CartDrawer />
     </header>
   );

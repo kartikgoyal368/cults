@@ -152,3 +152,43 @@
   color: var(--foreground);
   border-color: var(--primary);
 }
+
+@media (max-width: 768px) {
+  .pageWrapper {
+    padding: 3rem 1.25rem;
+  }
+  .contentWrapper {
+    padding: 2.25rem 1.5rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .pageWrapper {
+    padding: 2rem 0.75rem;
+  }
+  .cornerGraphic {
+    display: none;
+  }
+  .contentWrapper {
+    padding: 1.5rem 1rem;
+  }
+  .title {
+    font-size: 1.6rem;
+  }
+  .menuGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .menuCard {
+    padding: 1.5rem 1rem;
+  }
+  .logoutBtn {
+    width: 100%;
+    text-align: center;
+    align-self: stretch;
+  }
+}
+

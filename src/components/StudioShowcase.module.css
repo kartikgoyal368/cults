@@ -1,7 +1,7 @@
 .section {
   width: 100%;
-  min-height: 100vh;
-  background-color: #000; /* Solid black background */
+  min-height: 80vh;
+  background-color: #000;
   padding: 4rem 2rem;
   display: flex;
   align-items: center;
@@ -11,27 +11,40 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 3rem;
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
 }
 
 @media (min-width: 1024px) {
+  .section {
+    min-height: 100vh;
+  }
   .container {
     flex-direction: row;
     justify-content: space-between;
+    gap: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 2.5rem 1rem;
+    min-height: auto;
+  }
+  .container {
+    gap: 1.5rem;
   }
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* Keeping aspect ratio the same */
+  aspect-ratio: 1 / 1;
   background-color: #050505;
   border-radius: 4px;
   overflow: hidden;
-  /* Simulating studio lighting with a subtle glow/shadow */
   box-shadow: 0 20px 50px rgba(255, 255, 255, 0.05), inset 0 0 100px rgba(0, 0, 0, 0.8);
 }
 

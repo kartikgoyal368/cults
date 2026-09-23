@@ -107,3 +107,25 @@
   background: #ff3b3b;
   border-color: #ff3b3b;
 }
+
+@media (max-width: 768px) {
+  .section {
+    height: 50vh;
+    min-height: 320px;
+  }
+  .mainTitle {
+    top: 1rem;
+    font-size: clamp(1.75rem, 7vw, 2.4rem);
+  }
+  .card {
+    height: 75%;
+    margin-top: 3.25rem;
+  }
+  .quickAddBtn {
+    opacity: 0.9;
+    transform: translateX(-50%) translateY(0);
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
+  }
+}
+

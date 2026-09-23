@@ -125,3 +125,10 @@ img {
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+

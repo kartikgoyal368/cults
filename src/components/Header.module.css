@@ -9,9 +9,9 @@
 .announcement {
   background-color: var(--primary);
   color: var(--primary-foreground);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  padding: 0.5rem 0;
+  padding: 0.45rem 0;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -20,10 +20,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 2rem;
+  padding: 0.85rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
+  min-height: 64px;
 }
 
 .hamburger {
@@ -31,10 +32,14 @@
   flex-direction: column;
   gap: 5px;
   cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0.4rem;
+  z-index: 10;
 }
 
 .hamburger span {
-  width: 25px;
+  width: 22px;
   height: 2px;
   background-color: var(--foreground);
   transition: 0.3s;
@@ -44,8 +49,8 @@
   display: flex;
   gap: 2rem;
   font-family: var(--font-heading);
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   letter-spacing: 0.05em;
 }
 
@@ -76,14 +81,22 @@
   letter-spacing: 0.1em;
   position: absolute;
   left: 50%;
-  top: 58%;
+  top: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+}
+
+.logoImg {
+  width: 150px;
+  height: auto;
+  max-height: 48px;
 }
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .searchBarContainer {
@@ -91,8 +104,8 @@
   align-items: center;
   border: 1px solid var(--border);
   border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  width: 300px;
+  padding: 0.45rem 0.9rem;
+  width: 260px;
   background-color: var(--background);
   transition: border-color 0.2s ease;
 }
@@ -107,7 +120,7 @@
   border: none;
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   outline: none;
 }
 
@@ -122,19 +135,21 @@
   color: var(--muted-foreground);
 }
 
-.searchIcons svg {
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.searchIcons svg:hover {
+.mobileSearchToggle {
+  display: none;
+  background: transparent;
+  border: none;
   color: var(--foreground);
+  cursor: pointer;
+  padding: 0.3rem;
+  align-items: center;
+  justify-content: center;
 }
 
 .iconGroup {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .iconGroup button, .iconGroup a {
@@ -146,12 +161,13 @@
 }
 
 .iconGroup button:hover, .iconGroup a:hover {
-  transform: scale(1.1);
-  opacity: 0.8;
+  transform: scale(1.08);
+  opacity: 0.85;
 }
-/* Mega Menu Styles */
+
+/* Mega Menu Styles (Desktop) */
 .navItem {
-  /* No position relative here because megamenu is full-width relative to the viewport/header */
+  position: static;
 }
 
 .megaMenu {
@@ -228,6 +244,269 @@
 .megaMenuImageWrapper:hover img {
   transform: scale(1.05);
 }
+
+/* Mobile Search Dropdown */
+.mobileSearchDropdown {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  background-color: #0d0d0d;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+  display: block;
+}
+
+.mobileSearchForm {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.mobileSearchInput {
+  flex: 1;
+  background-color: #161616;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 0.65rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.mobileSearchSubmitBtn {
+  background-color: #ff3b3b;
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1rem;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Mobile Navigation Drawer */
+.mobileDrawerOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobileDrawerOverlay.mobileDrawerOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 85%;
+  max-width: 360px;
+  height: 100vh;
+  background-color: #080808;
+  border-right: 1px solid #222;
+  z-index: 1001;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mobileDrawer.mobileDrawerOpen {
+  transform: translateX(0);
+}
+
+.mobileDrawerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #1a1a1a;
+  background-color: #050505;
+}
+
+.mobileDrawerCloseBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ccc;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobileDrawerCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.mobileDrawerSearch {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #141414;
+}
+
+.drawerSearchForm {
+  display: flex;
+  align-items: center;
+  background: #141414;
+  border: 1px solid #282828;
+  border-radius: 4px;
+  padding: 0.4rem 0.75rem;
+}
+
+.drawerSearchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.drawerSearchBtn {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.mobileNavLinks {
+  flex: 1;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileNavLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  border-bottom: 1px solid #121212;
+  transition: background-color 0.2s ease;
+}
+
+.mobileNavLink:hover {
+  background-color: #121212;
+}
+
+.dropBadge {
+  background-color: #ff3b3b;
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+}
+
+.mobileAccordion {
+  border-bottom: 1px solid #121212;
+}
+
+.mobileAccordionToggle {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordionArrow {
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.mobileSubLinks {
+  background-color: #0e0e0e;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileSubLinks a {
+  padding: 0.65rem 2rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #aaa;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.mobileSubLinks a:hover {
+  color: #ff3b3b;
+}
+
+.mobileDrawerFooter {
+  padding: 1.5rem;
+  border-top: 1px solid #1a1a1a;
+  background-color: #050505;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.drawerLoginBtn {
+  width: 100%;
+  background-color: #ff3b3b;
+  color: #fff;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 0.75rem;
+}
+
+.drawerSignOutBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #141414;
+  border: 1px solid #333;
+  color: #ff6b6b;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.drawerCopyright {
+  font-size: 0.65rem;
+  color: #555;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* Tablet & Mobile Media Queries */
 @media (max-width: 1024px) {
   .navLinks {
     display: none;
@@ -235,4 +514,50 @@
   .hamburger {
     display: flex;
   }
+  .searchBarContainer {
+    display: none;
+  }
+  .mobileSearchToggle {
+    display: flex;
+  }
+  .navContainer {
+    padding: 0.75rem 1.25rem;
+  }
 }
+
+@media (max-width: 640px) {
+  .logoImg {
+    width: 120px;
+    max-height: 38px;
+  }
+  .actions {
+    gap: 0.85rem;
+  }
+  .iconGroup {
+    gap: 0.75rem;
+  }
+  .iconGroup svg, .mobileSearchToggle svg {
+    width: 20px;
+    height: 20px;
+  }
+  .userMenuWrapper {
+    display: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .logoImg {
+    width: 95px;
+    max-height: 30px;
+  }
+  .actions {
+    gap: 0.4rem;
+  }
+  .iconGroup {
+    gap: 0.45rem;
+  }
+  .navContainer {
+    padding: 0.5rem 0.6rem;
+  }
+}
+
