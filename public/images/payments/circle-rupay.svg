@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <circle cx="24" cy="24" r="24" fill="#ffffff"/>
+  <circle cx="24" cy="24" r="23.5" fill="#ffffff" stroke="#e6e6e6" stroke-width="1"/>
+  <g transform="translate(6, 17)">
+    <text x="0" y="11" fill="#0a2240" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="900" font-style="italic">Ru</text>
+    <text x="17" y="11" fill="#13539e" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="900" font-style="italic">Pay</text>
+    <path d="M26 2l3.5 4.5-3.5 4.5h2.8l3.5-4.5-3.5-4.5h-2.8z" fill="#008374" />
+    <path d="M30 2l3.5 4.5-3.5 4.5h2.8l3.5-4.5-3.5-4.5h-2.8z" fill="#F37021" />
+  </g>
+</svg>

@@ -1,0 +1,256 @@
+.pageWrapper {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  background-image: url('/images/spiderman_web_bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 600px;
+  background-color: rgba(5, 5, 5, 0.85);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  backdrop-filter: blur(10px);
+  padding: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.backBtn {
+  color: var(--muted-foreground);
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.backBtn:hover {
+  color: var(--primary);
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.subtitle {
+  color: var(--muted-foreground);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #ccc;
+}
+
+.input, .textarea {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  padding: 1rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  width: 100%;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.input:focus, .textarea:focus {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.readOnly {
+  color: var(--muted-foreground);
+  cursor: not-allowed;
+}
+
+.readOnly:focus {
+  border-color: var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.submitBtn {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background-color: var(--foreground);
+  color: var(--background);
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  border: 1px solid var(--foreground);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.submitBtn:hover {
+  background-color: var(--primary);
+  color: var(--foreground);
+  border-color: var(--primary);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cornerGraphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+  max-width: 420px;
+  width: 32vw;
+  min-width: 220px;
+  height: auto;
+  aspect-ratio: 1071 / 1469;
+  mix-blend-mode: screen;
+  opacity: 0.95;
+}
+
+.cornerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top left;
+}
+
+@media (max-width: 768px) {
+  .cornerGraphic {
+    width: 200px;
+    opacity: 0.8;
+  }
+}
+
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #222, #111);
+  border: 2px solid var(--border);
+  color: var(--foreground);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profileMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.profileName {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  color: var(--foreground);
+}
+
+.profileEmail {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.profileTier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ff4d4d;
+  text-transform: uppercase;
+}
+
+.alertSuccess {
+  background: rgba(22, 163, 74, 0.15);
+  border: 1px solid #16a34a;
+  color: #86efac;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.alertError {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid #dc2626;
+  color: #fca5a5;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.4;
+}

@@ -1,0 +1,238 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.announcement {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.5rem 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 2px;
+  background-color: var(--foreground);
+  transition: 0.3s;
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.navLinks a {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--foreground);
+  transition: width 0.3s ease;
+}
+
+.navLinks a:hover::after {
+  width: 100%;
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.searchBarContainer {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  width: 300px;
+  background-color: var(--background);
+  transition: border-color 0.2s ease;
+}
+
+.searchBarContainer:focus-within {
+  border-color: var(--foreground);
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--muted-foreground);
+}
+
+.searchIcons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+}
+
+.searchIcons svg {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.searchIcons svg:hover {
+  color: var(--foreground);
+}
+
+.iconGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.iconGroup button, .iconGroup a {
+  color: var(--foreground);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconGroup button:hover, .iconGroup a:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+/* Mega Menu Styles */
+.navItem {
+  /* No position relative here because megamenu is full-width relative to the viewport/header */
+}
+
+.megaMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100vw;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 99;
+}
+
+.navItem:hover .megaMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.megaMenuContent {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 3rem 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 4rem;
+}
+
+.megaMenuLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  flex: 1;
+  align-content: start;
+}
+
+.megaMenuLinks a {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  transition: color 0.2s ease;
+}
+
+.megaMenuLinks a:hover {
+  color: var(--foreground);
+}
+
+.megaMenuImages {
+  display: flex;
+  gap: 1.5rem;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.megaMenuImageWrapper {
+  position: relative;
+  width: 280px;
+  height: 340px;
+  background-color: var(--muted);
+  overflow: hidden;
+}
+
+.megaMenuImageWrapper img {
+  transition: transform 0.5s ease;
+}
+
+.megaMenuImageWrapper:hover img {
+  transform: scale(1.05);
+}
+@media (max-width: 1024px) {
+  .navLinks {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+}

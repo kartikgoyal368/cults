@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <circle cx="24" cy="24" r="24" fill="#ffffff"/>
+  <circle cx="24" cy="24" r="23.5" fill="#ffffff" stroke="#e6e6e6" stroke-width="1"/>
+  <g transform="translate(6, 17)">
+    <text x="0" y="11" fill="#002970" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="900" letter-spacing="-0.5px">Pay</text>
+    <text x="23" y="11" fill="#00baf2" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="900" letter-spacing="-0.5px">tm</text>
+  </g>
+</svg>
