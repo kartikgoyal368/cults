@@ -4,18 +4,32 @@ import BestSellerCard from './BestSellerCard';
 import styles from './BestSellers.module.css';
 
 export default async function BestSellers() {
-  const products = await prisma.product.findMany({
-    take: 5,
-    include: { images: true }
-  });
+  let bestSellers = [
+    { id: 'graphic-tee-1', name: 'Girl Graphic Tee', price: '₹1499', image: '/images/1.png', tag: 'BESTSELLER' },
+    { id: 'nothing-remains-2', name: 'Nothing Remains Tee', price: '₹1499', image: '/images/2.png', tag: 'NEW' },
+    { id: 'hate-the-sin-3', name: 'Hate the Sin Tee', price: '₹1499', image: '/images/3_new.png', tag: 'TRENDING' },
+    { id: 'skull-star-4', name: 'Skull Star Sweatshirt', price: '₹2499', image: '/images/4.png', tag: 'EXCLUSIVE' },
+    { id: 'greatest-hoodie-5', name: 'Greatest Star Hoodie', price: '₹2999', image: '/images/5.png', tag: 'HOT' },
+  ];
 
-  const bestSellers = products.map(p => ({
-    id: p.id,
-    name: p.name,
-    price: p.price,
-    image: p.images[0]?.url || '/images/hero.jpg',
-    tag: p.tag
-  }));
+  try {
+    const products = await prisma.product.findMany({
+      take: 5,
+      include: { images: true }
+    });
+
+    if (products && products.length > 0) {
+      bestSellers = products.map(p => ({
+        id: p.id,
+        name: p.name,
+        price: p.price,
+        image: p.images[0]?.url || '/images/hero.jpg',
+        tag: p.tag
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching bestsellers, using cached fallback:', error);
+  }
 
   return (
     <section className={styles.section}>

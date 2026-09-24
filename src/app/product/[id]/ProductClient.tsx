@@ -133,6 +133,7 @@ export default function ProductClient({ product }: { product: Product }) {
           onClick={() => setShowSizeChart(false)}
         >
           <div 
+            data-lenis-prevent
             style={{
               backgroundColor: '#0c0c0c',
               border: '1px solid #333',

@@ -285,7 +285,7 @@ export default function Header({ session }: { session: Session | null }) {
         onClick={closeMobileMenu}
         aria-hidden="true"
       />
-      <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.mobileDrawerOpen : ''}`}>
+      <div className={`${styles.mobileDrawer} ${isMobileMenuOpen ? styles.mobileDrawerOpen : ''}`} data-lenis-prevent>
         <div className={styles.mobileDrawerHeader}>
           <Image src="/images/logo.png" alt="CULT'S Logo" width={130} height={42} style={{ objectFit: 'contain' }} />
           <button className={styles.mobileDrawerCloseBtn} onClick={closeMobileMenu} aria-label="Close menu">

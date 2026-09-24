@@ -39,7 +39,7 @@ export default function CartDrawer() {
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className={`${styles.drawer} ${isCartOpen ? styles.open : ''}`}>
+      <div className={`${styles.drawer} ${isCartOpen ? styles.open : ''}`} data-lenis-prevent>
         {/* Header */}
         <div className={styles.header}>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close cart">
