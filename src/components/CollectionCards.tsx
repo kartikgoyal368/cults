@@ -9,10 +9,15 @@ const collections = [
     href: '/collections/new',
   },
   {
-    title: 'BOTTOMS',
+    title: 'STREET WEAR',
     image: '/images/hero.jpg',
-    href: '/collections/bottoms',
-  }
+    href: '/collections/street-wear',
+  },
+  {
+    title: "CULT'S BASICS",
+    image: '/images/tops.jpg',
+    href: '/collections/basics',
+  },
 ];
 
 export default function CollectionCards() {

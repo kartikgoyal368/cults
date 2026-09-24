@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useCart } from '@/context/CartContext';
 import styles from './page.module.css';
 
 interface ProductImage {
@@ -29,6 +30,7 @@ export default function WishlistClient({
   initialWishlistProductIds,
   allProducts,
 }: WishlistClientProps) {
+  const { addToCart } = useCart();
   const [wishlistIds, setWishlistIds] = useState<string[]>(initialWishlistProductIds);
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
   const [activeFilter, setActiveFilter] = useState<'all' | 'street-wear' | 'basics'>('all');
@@ -91,6 +93,17 @@ export default function WishlistClient({
 
   const handleAddToBag = (product: Product) => {
     const size = selectedSizes[product.id] || 'L';
+    const mainImg = product.images?.[0]?.url || '/images/hero.jpg';
+    addToCart(
+      {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: mainImg,
+      },
+      size,
+      1
+    );
     showToast(`Added ${product.name} (Size ${size}) to your bag!`);
   };
 
@@ -190,7 +203,7 @@ export default function WishlistClient({
                   <div key={product.id} className={styles.productCard}>
                     {/* Image & Badges */}
                     <div className={styles.imageWrapper}>
-                      <Link href={`/products/${product.id}`} className={styles.imageLink}>
+                      <Link href={`/product/${product.id}`} className={styles.imageLink}>
                         <Image
                           src={mainImage}
                           alt={product.name}
@@ -223,7 +236,7 @@ export default function WishlistClient({
                       <div className={styles.categoryLabel}>
                         {product.category === 'basics' ? "CULT'S BASICS" : 'STREET WEAR'}
                       </div>
-                      <Link href={`/products/${product.id}`} className={styles.productTitle}>
+                      <Link href={`/product/${product.id}`} className={styles.productTitle}>
                         {product.name}
                       </Link>
                       <div className={styles.productPrice}>{product.price}</div>
@@ -289,7 +302,7 @@ export default function WishlistClient({
                 <div key={product.id} className={styles.productCard}>
                   {/* Image & Badges */}
                   <div className={styles.imageWrapper}>
-                    <Link href={`/products/${product.id}`} className={styles.imageLink}>
+                    <Link href={`/product/${product.id}`} className={styles.imageLink}>
                       <Image
                         src={mainImage}
                         alt={product.name}
@@ -322,7 +335,7 @@ export default function WishlistClient({
                     <div className={styles.categoryLabel}>
                       {product.category === 'basics' ? "CULT'S BASICS" : 'STREET WEAR'}
                     </div>
-                    <Link href={`/products/${product.id}`} className={styles.productTitle}>
+                    <Link href={`/product/${product.id}`} className={styles.productTitle}>
                       {product.name}
                     </Link>
                     <div className={styles.productPrice}>{product.price}</div>

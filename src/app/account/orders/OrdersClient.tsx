@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 import styles from './page.module.css';
 
 interface OrderItem {
@@ -51,6 +53,8 @@ export default function OrdersClient({
   initialOrders,
   allProducts,
 }: OrdersClientProps) {
+  const router = useRouter();
+  const { setBuyNowItem } = useCart();
   const [orders, setOrders] = useState<Order[]>(initialOrders);
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
@@ -87,25 +91,38 @@ export default function OrdersClient({
       });
 
       if (!res.ok) {
-        showToast('Error placing order. Please try again.');
-      } else {
-        const data = await res.json();
-        if (data.order) {
-          // Prepend new order to list
-          const formattedOrder: Order = {
-            id: data.order.id,
-            orderNumber: data.order.orderNumber,
-            status: data.order.status,
-            total: data.order.total,
-            trackingNumber: data.order.trackingNumber,
-            shippingAddress: data.order.shippingAddress,
-            paymentMethod: data.order.paymentMethod,
-            createdAt: new Date().toISOString(),
-            items: data.order.items || [],
-          };
-          setOrders((prev) => [formattedOrder, ...prev]);
-          showToast(`Order #${formattedOrder.orderNumber} placed successfully!`);
-        }
+        // If guest or unauthorized, take directly to checkout
+        const itemPriceNum = parseInt(product.price.replace(/[^0-9]/g, ''), 10) || 0;
+        setBuyNowItem({
+          id: `${product.id}-${size}`,
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          priceNumber: itemPriceNum,
+          image: product.images[0]?.url || '/images/1.png',
+          size,
+          quantity: 1,
+        });
+        router.push('/checkout');
+        return;
+      }
+
+      const data = await res.json();
+      if (data.order) {
+        // Prepend new order to list
+        const formattedOrder: Order = {
+          id: data.order.id,
+          orderNumber: data.order.orderNumber,
+          status: data.order.status,
+          total: data.order.total,
+          trackingNumber: data.order.trackingNumber,
+          shippingAddress: data.order.shippingAddress,
+          paymentMethod: data.order.paymentMethod,
+          createdAt: new Date().toISOString(),
+          items: data.order.items || [],
+        };
+        setOrders((prev) => [formattedOrder, ...prev]);
+        showToast(`Order #${formattedOrder.orderNumber} placed successfully!`);
       }
     } catch {
       showToast('Error placing order.');
@@ -270,7 +287,7 @@ export default function OrdersClient({
 
                         <div className={styles.itemActions}>
                           {item.productId && (
-                            <Link href={`/products/${item.productId}`} className={styles.viewItemBtn}>
+                            <Link href={`/product/${item.productId}`} className={styles.viewItemBtn}>
                               VIEW PRODUCT
                             </Link>
                           )}
@@ -312,7 +329,7 @@ export default function OrdersClient({
                     </button>
                     {order.items[0]?.productId && (
                       <Link
-                        href={`/products/${order.items[0].productId}`}
+                        href={`/product/${order.items[0].productId}`}
                         className={styles.buyAgainBtn}
                       >
                         BUY AGAIN
@@ -349,7 +366,7 @@ export default function OrdersClient({
             return (
               <div key={product.id} className={styles.productCard}>
                 <div className={styles.productImageWrapper}>
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/product/${product.id}`}>
                     <Image
                       src={mainImage}
                       alt={product.name}
@@ -368,7 +385,7 @@ export default function OrdersClient({
                 </div>
 
                 <div className={styles.productCardInfo}>
-                  <Link href={`/products/${product.id}`} className={styles.productCardTitle}>
+                  <Link href={`/product/${product.id}`} className={styles.productCardTitle}>
                     {product.name}
                   </Link>
                   <div className={styles.productCardPrice}>{product.price}</div>
@@ -399,7 +416,7 @@ export default function OrdersClient({
                       {ordering ? 'ORDERING...' : 'ORDER NOW'}
                     </button>
                     <Link
-                      href={`/products/${product.id}`}
+                      href={`/product/${product.id}`}
                       className={styles.detailsBtn}
                       title="View Details"
                     >

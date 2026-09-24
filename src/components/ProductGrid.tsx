@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
@@ -18,6 +19,34 @@ const products = [
 
 export default function ProductGrid() {
   const { addToCart } = useCart();
+  const [wishlistIds, setWishlistIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('cults_wishlist');
+      if (stored) setWishlistIds(JSON.parse(stored));
+    } catch {}
+  }, []);
+
+  const handleToggleWishlist = async (e: React.MouseEvent, productId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const isWishlisted = wishlistIds.includes(productId);
+    const updated = isWishlisted
+      ? wishlistIds.filter((id) => id !== productId)
+      : [...wishlistIds, productId];
+    setWishlistIds(updated);
+
+    try {
+      localStorage.setItem('cults_wishlist', JSON.stringify(updated));
+      await fetch('/api/wishlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ productId }),
+      });
+    } catch {}
+  };
 
   const handleQuickAdd = (e: React.MouseEvent, product: typeof products[0]) => {
     e.preventDefault();
@@ -38,62 +67,70 @@ export default function ProductGrid() {
     <section className={styles.section}>
       <h2 className={styles.title}>CULT'S BASICS</h2>
       <div className={styles.grid}>
-        {products.map((product) => (
-          <div key={product.id} className={styles.cardWrapper}>
-            <Link href={`/product/${product.id}`} className={styles.card}>
-              <div className={styles.imageWrapper}>
-                {product.tag && <span className={styles.tag}>{product.tag}</span>}
-                <button 
-                  className={styles.wishlistBtn}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.location.href = '/account/wishlist';
-                  }}
-                  title="View Wishlist"
-                  aria-label="Wishlist"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                </button>
-                <Image 
-                  src={product.image} 
-                  alt={product.name} 
-                  fill 
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  className={styles.image} 
-                />
-
-                {/* Quick Add Overlay on Image */}
-                <div className={styles.quickAddOverlay}>
-                  <button 
-                    type="button" 
-                    className={styles.quickAddBtn}
-                    onClick={(e) => handleQuickAdd(e, product)}
+        {products.map((product) => {
+          const isWishlisted = wishlistIds.includes(product.id);
+          return (
+            <div key={product.id} className={styles.cardWrapper}>
+              <Link href={`/product/${product.id}`} className={styles.card}>
+                <div className={styles.imageWrapper}>
+                  {product.tag && <span className={styles.tag}>{product.tag}</span>}
+                  <button
+                    className={styles.wishlistBtn}
+                    onClick={(e) => handleToggleWishlist(e, product.id)}
+                    title={isWishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
+                    aria-label="Wishlist"
+                    type="button"
                   >
-                    + QUICK ADD
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill={isWishlisted ? '#ff3b3b' : 'none'}
+                      stroke={isWishlisted ? '#ff3b3b' : 'currentColor'}
+                      strokeWidth="1.5"
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                  </button>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                    className={styles.image}
+                  />
+
+                  {/* Quick Add Overlay on Image */}
+                  <div className={styles.quickAddOverlay}>
+                    <button
+                      type="button"
+                      className={styles.quickAddBtn}
+                      onClick={(e) => handleQuickAdd(e, product)}
+                    >
+                      + QUICK ADD
+                    </button>
+                  </div>
+                </div>
+              </Link>
+
+              <div className={styles.productDetails}>
+                <Link href={`/product/${product.id}`} className={styles.productName}>
+                  {product.name}
+                </Link>
+                <div className={styles.productPriceRow}>
+                  <span className={styles.productPrice}>{product.price}</span>
+                  <button
+                    className={styles.addToCartInlineBtn}
+                    onClick={(e) => handleQuickAdd(e, product)}
+                    type="button"
+                  >
+                    ADD TO CART
                   </button>
                 </div>
               </div>
-            </Link>
-
-            <div className={styles.productDetails}>
-              <Link href={`/product/${product.id}`} className={styles.productName}>
-                {product.name}
-              </Link>
-              <div className={styles.productPriceRow}>
-                <span className={styles.productPrice}>{product.price}</span>
-                <button 
-                  className={styles.addToCartInlineBtn}
-                  onClick={(e) => handleQuickAdd(e, product)}
-                >
-                  ADD TO CART
-                </button>
-              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
