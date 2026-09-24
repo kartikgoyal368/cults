@@ -21,7 +21,24 @@ export async function POST(req: Request) {
     });
 
     if (existingUser) {
-      return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
+      if (existingUser.passwordHash) {
+        return NextResponse.json({ error: 'An account with this email already exists.' }, { status: 409 });
+      }
+
+      // User exists from a guest checkout order; attach password & register them
+      const passwordHash = await bcrypt.hash(password, 10);
+      const updatedUser = await prisma.user.update({
+        where: { id: existingUser.id },
+        data: {
+          name: name.trim() || existingUser.name,
+          passwordHash,
+        },
+      });
+
+      return NextResponse.json(
+        { success: true, user: { id: updatedUser.id, email: updatedUser.email, name: updatedUser.name } },
+        { status: 200 }
+      );
     }
 
     const passwordHash = await bcrypt.hash(password, 10);

@@ -24,7 +24,7 @@ export default async function BestSellers() {
         name: p.name,
         price: p.price,
         image: p.images[0]?.url || '/images/hero.jpg',
-        tag: p.tag
+        tag: p.tag || 'BESTSELLER'
       }));
     }
   } catch (error) {
