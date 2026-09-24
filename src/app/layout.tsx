@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description: 'Shop baggy pants, hoodies, baby tees, tank tops & sustainable streetwear clothing. CULT\'S - the best streetwear clothing brand.',
 };
 
+import { Suspense } from 'react';
+import NavigationProgressBar from '@/components/NavigationProgressBar';
 import { auth } from '@/auth';
 
 export default async function RootLayout({
@@ -26,6 +28,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable}`}>
+        <Suspense fallback={null}>
+          <NavigationProgressBar />
+        </Suspense>
         <CartProvider>
           <CartPopup />
           <SmoothScroll>

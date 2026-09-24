@@ -1,0 +1,144 @@
+.loadingPage {
+  min-height: 100vh;
+  background-color: #000;
+  padding-bottom: 5rem;
+  overflow: hidden;
+}
+
+.topBar {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(90deg, #ff1a1a 0%, #ff4d4d 50%, #990000 100%);
+  animation: pulseBar 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseBar {
+  0% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.5));
+  }
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.9));
+  }
+}
+
+.heroSkeleton {
+  width: 100%;
+  height: 70vh;
+  min-height: 480px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #0a0a0a;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 0 1.5rem;
+}
+
+.tickerSkeleton {
+  width: 100%;
+  height: 42px;
+  background: #111;
+  border-top: 1px solid #222;
+  border-bottom: 1px solid #222;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 0;
+}
+
+.sectionHeaderSkeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.circlesRow {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  overflow-x: hidden;
+  padding: 1rem 0;
+}
+
+.circleItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.cardSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background-color: #0c0c0c;
+  border: 1px solid #1c1c1c;
+  border-radius: 4px;
+  padding: 0.75rem;
+}
+
+.cardImageWrapper {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSkeleton {
+    height: 55vh;
+    min-height: 380px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .circlesRow {
+    gap: 1rem;
+    justify-content: flex-start;
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .cardSkeleton {
+    padding: 0.5rem;
+  }
+}
